@@ -38,10 +38,27 @@ public class Solution {
 	public int calculateCost(){
 		int cost = 0;
 		for(int i = 0; i < vector.size() ; i++){
-			
+			for (int j = i + 1 ; j < vector.size() ; j++){
+				cost += diagConflict(j-i, vector.get(i), vector.get(j)) ;
+				cost += lineConflict(vector.get(i), vector.get(j));
+			}
 		}
 		
 		return cost;
+	}
+
+	private int lineConflict(int iValue, int jValue) {
+		if (iValue == jValue){
+			return 1;
+		}
+		return 0;
+	}
+
+	private int diagConflict(int difference, int iValue, int jValue) {
+		if (difference == Math.abs(iValue - jValue)){
+			return 1;
+		}
+		return 0;
 	}
 
 }
