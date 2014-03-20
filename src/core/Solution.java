@@ -25,12 +25,23 @@ public class Solution {
 	}
 	
 	public void init(){
-		
+		int size = vector.size();
+		int col = 0;
+		int ligne = 0;
+		for (int i = 0; i < size; i ++) {
+			vector.add(col, ligne);
+			col = (col + 2) % size;
+			ligne++;
+		}
 	}
 	
 	public int calculateCost(){
+		int cost = 0;
+		for(int i = 0; i < vector.size() ; i++){
+			
+		}
 		
-		return -1;
+		return cost;
 	}
 
 }
