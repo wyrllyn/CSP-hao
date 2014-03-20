@@ -16,6 +16,10 @@ public class Solution {
 		vector = new ArrayList<>(size);
 	}
 
+	public Solution(Solution solution) {
+		this.vector = new ArrayList<>(solution.getVector());
+	}
+
 	public List<Integer> getVector() {
 		return vector;
 	}

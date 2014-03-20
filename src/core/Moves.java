@@ -36,7 +36,7 @@ public class Moves {
 		int newValue = value;
 		
 		while (newValue == value) {
-			newValue = (int) (Math.random() % tempVector.size());
+			newValue = (int) ((Math.random() * 10) % tempVector.size());
 		}
 		
 		tempVector.set(toMove, newValue);
