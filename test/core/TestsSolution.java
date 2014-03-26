@@ -28,7 +28,7 @@ public class TestsSolution {
 	@Test
 	public void test_initialization_default() {
 		solution = new Solution();
-		solution.init();
+		solution.init_knight();
 		List<Integer> vector = solution.getVector();
 		for (Integer i : vector) {
 			assertTrue(i >= 0);
@@ -39,7 +39,7 @@ public class TestsSolution {
 	@Test
 	public void test_initialization_100() {
 		solution = new Solution(100);
-		solution.init();
+		solution.init_knight();
 		List<Integer> vector = solution.getVector();
 		for (Integer i : vector) {
 			assertTrue(i >= 0);

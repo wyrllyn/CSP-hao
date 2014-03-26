@@ -9,6 +9,12 @@ public class Solution {
 	private List<Integer> vector;
 	private int size;
 	
+	private Init init;
+	public enum Init {
+		DIAG,
+		KNIGHT
+	}
+	
 	public Solution (){
 		this(DEFAULT_SIZE);
 	}
@@ -41,7 +47,8 @@ public class Solution {
 		this.size = size;
 	}
 
-	public void init(){
+	public void init_knight(){
+		init = Init.KNIGHT;
 		int col = 0;
 		int ligne = 0;
 		for (int i = 0; i < size; i ++) {
@@ -52,6 +59,13 @@ public class Solution {
 			vector.set(col, ligne);
 			col = (col + 2) % size;
 			ligne++;
+		}
+	}
+	
+	public void init_diag() {
+		init = Init.DIAG;
+		for (int i = 0; i < size; i++) {
+			vector.set(i, i);
 		}
 	}
 	
@@ -111,6 +125,14 @@ public class Solution {
 			}
 		}
 		return -1;
+	}
+
+	public Init getInit() {
+		return init;
+	}
+
+	public void setInit(Init init) {
+		this.init = init;
 	}
 
 }

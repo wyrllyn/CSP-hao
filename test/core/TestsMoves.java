@@ -21,7 +21,7 @@ public class TestsMoves {
 	@Before
 	public void setUp() throws Exception {
 		solution = new Solution();
-		solution.init();
+		solution.init_knight();
 		moves = new Moves(solution);
 	}
 

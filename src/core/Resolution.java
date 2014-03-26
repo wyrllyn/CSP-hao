@@ -1,9 +1,13 @@
 package core;
 
+import core.Solution.Init;
+
 public class Resolution {
 	
+	private static final int DEFAULT_TEMPERATURE = 2000;
 	protected static final int OK = -1;
 	private Solution solution;
+	private static int maxIteration = 100000;
 	
 	public Resolution(Solution solution){
 		this.solution = solution;
@@ -19,21 +23,20 @@ public class Resolution {
 	
 	public Solution simulatedAnnealing(){
 		int delta = 0;
-		double temperature = 2000;
+		double temperature = DEFAULT_TEMPERATURE;
 		int iteration = 0;
-		int maxIteration = 100000;
 		Solution bestSolution = solution;
 		int initalCost = solution.calculateCost();
 		do {
 				Solution tempSolution = new Solution(solution);
-				//doRandomMove(tempSolution);
-				doMoveOnConflict(tempSolution);
+				doRandomMove(tempSolution);
+				//doMoveOnConflict(tempSolution);
 				delta = solution.calculateCost() - tempSolution.calculateCost();
 				double probability = probability();
 				double e = Math.exp(-delta/temperature);
-				System.out.println("proba=" + probability + "; e=" + e);
-				System.out.println(solution.getVector() + " cost=" + solution.calculateCost());
-				System.out.println(tempSolution.getVector() + " cost=" + tempSolution.calculateCost());
+				//System.out.println("proba=" + probability + "; e=" + e);
+				//System.out.println(solution.getVector() + " cost=" + solution.calculateCost());
+				//System.out.println(tempSolution.getVector() + " cost=" + tempSolution.calculateCost());
 				if (delta > 0 || (probability < e)){
 					solution = tempSolution;
 				}
@@ -47,7 +50,7 @@ public class Resolution {
 				
 		} while (solution.calculateCost() > 0 && iteration < maxIteration);
 		
-		System.out.println("best cost=" + bestSolution.calculateCost() + "(initial cost = " + initalCost + ")");
+		System.out.println("best cost=" + bestSolution.calculateCost() + " (initial cost = " + initalCost + ")");
 		return bestSolution;
 	}
 	
@@ -67,31 +70,39 @@ public class Resolution {
 
 	protected void doRandomMove(Solution tempSolution) {
 		Moves moves = new Moves(tempSolution);
-		if (Math.random() <= 0.5) {
-			int result = doSwap(tempSolution, moves);
-			if (result != OK) {
-				doOneMove(tempSolution, moves, result);
+		if (tempSolution.getInit() == Init.KNIGHT) {
+			if (Math.random() <= 0.5) {
+				int result = doSwap(tempSolution, moves);
+				if (result != OK) {
+					doOneMove(tempSolution, moves, result);
+				}
+			} else {
+				doOneMove(tempSolution, moves);
 			}
 		} else {
-			doOneMove(tempSolution, moves);
+			doSwapDiag(tempSolution, moves);
 		}
 	}
 	
-	protected void doMoveOnConflict(Solution tempSolution) {
-		Moves moves = new Moves(tempSolution);
-		int conflict = tempSolution.getConflict();
-		
-		doOneMove(tempSolution, moves, conflict);
-
+	protected void doSwapDiag(Solution tempSolution, Moves moves) {
+		//System.out.println("doSwapDiag");
+		int first = -1;
+		int second = -1;
+		while (first == second) {
+			first = (int) (Math.random() * tempSolution.getVector().size() );
+			second = (int) (Math.random() * tempSolution.getVector().size() );
+		}
+		moves.swap(first, second);
 	}
-	
 
 	protected void doOneMove(Solution tempSolution, Moves moves) {
-		int toMove = (int) ((Math.random() *10 ) % tempSolution.getVector().size());
+		//System.out.println("doOneMove");
+		int toMove = (int) (Math.random() *tempSolution.getVector().size() );
 		moves.move(toMove);
 	}
 	
 	protected void doOneMove(Solution tempSolution, Moves moves, int toMove) {
+		//System.out.println("doOneMove");
 		int value = nonUsedValue();
 		if (value != -1){
 			solution.getVector().set(toMove, value);
@@ -102,11 +113,12 @@ public class Resolution {
 	}
 
 	protected int doSwap(Solution tempSolution, Moves moves) {
+		//System.out.println("doSwap");
 		int first = -1;
 		int second = -1;
 		while (first == second) {
-			first = (int) ((Math.random() *10 ) % tempSolution.getVector().size());
-			second = (int) ((Math.random() *10 ) % tempSolution.getVector().size());
+			first = (int) (Math.random() * tempSolution.getVector().size() );
+			second = (int) (Math.random() * tempSolution.getVector().size() );
 		}
 		
 		if (tempSolution.getVector().get(first) == tempSolution.getVector().get(second)) {
@@ -117,7 +129,17 @@ public class Resolution {
 		}
 	}
 	
+	@Deprecated
+	protected void doMoveOnConflict(Solution tempSolution) {
+		Moves moves = new Moves(tempSolution);
+		int conflict = tempSolution.getConflict();
+		
+		doOneMove(tempSolution, moves, conflict);
+	}
+	
+	@Deprecated
 	protected int doSwap(Solution tempSolution, Moves moves, int first) {
+		//System.out.println("doSwap");
 		int second = -1;
 		do {
 			second = tempSolution.getConflict(first);
