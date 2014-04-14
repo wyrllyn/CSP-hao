@@ -95,36 +95,9 @@ public class Solution {
 		return 0;
 	}
 
-	public int getConflict() {
-		for(int i = 0; i < vector.size() ; i++){
-			for (int j = i + 1 ; j < vector.size() ; j++){
-				if (areInConflict(i, j)) {
-					return i;
-				}
-			}
-		}
-		return -1;
-	}
-
 	public boolean areInConflict(int first, int second) {
 		return diagConflict(second-first, vector.get(first), vector.get(second)) == 1
 				|| lineConflict(vector.get(first), vector.get(second)) == 1;
-	}
-
-	public int getConflict(int first) {
-		for(int i = 0; i < vector.size() ; i++){
-			for (int j = i + 1 ; j < vector.size() ; j++){
-				if (areInConflict(i, j)) {
-					if (i != first) {
-						return i;
-					} else {
-						return j;
-					}
-				}
-				
-			}
-		}
-		return -1;
 	}
 
 	public Init getInit() {

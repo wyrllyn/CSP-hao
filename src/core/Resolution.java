@@ -128,27 +128,4 @@ public class Resolution {
 			return OK;
 		}
 	}
-	
-	@Deprecated
-	protected void doMoveOnConflict(Solution tempSolution) {
-		Moves moves = new Moves(tempSolution);
-		int conflict = tempSolution.getConflict();
-		
-		doOneMove(tempSolution, moves, conflict);
-	}
-	
-	@Deprecated
-	protected int doSwap(Solution tempSolution, Moves moves, int first) {
-		//System.out.println("doSwap");
-		int second = -1;
-		do {
-			second = tempSolution.getConflict(first);
-		} while (second == first && tempSolution.areInConflict(first, second));
-		if (second != -1) {
-			moves.swap(first, second);
-			return OK;
-		} else {
-			return -1;
-		}
-	}
 }
