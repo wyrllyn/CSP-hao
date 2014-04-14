@@ -1,5 +1,7 @@
 package core;
 
+import javax.naming.InitialContext;
+
 import core.Solution.Init;
 
 public class Resolution {
@@ -26,8 +28,11 @@ public class Resolution {
 		double temperature = DEFAULT_TEMPERATURE;
 		int iteration = 0;
 		Solution bestSolution = solution;
-		int initalCost = solution.calculateCost();
+		int initialCost = solution.calculateCost();
 		do {
+				if(initialCost == 0) {
+					break;
+				}
 				Solution tempSolution = new Solution(solution);
 				doRandomMove(tempSolution);
 				//doMoveOnConflict(tempSolution);
@@ -50,7 +55,7 @@ public class Resolution {
 				
 		} while (solution.calculateCost() > 0 && iteration < maxIteration);
 		
-		System.out.println("best cost=" + bestSolution.calculateCost() + " (initial cost = " + initalCost + ")");
+		System.out.println("best cost=" + bestSolution.calculateCost() + " (initial cost = " + initialCost + ")");
 		return bestSolution;
 	}
 	
