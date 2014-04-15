@@ -1,5 +1,7 @@
 package main;
 
+import java.util.Date;
+
 import core.Resolution;
 import core.Solution;
 import core.Solution.Init;
@@ -25,7 +27,10 @@ public class Main {
 			break;
 		}
 		Resolution resolution = new Resolution(solution);
+		Date startTime = new Date();
 		resolution.simulatedAnnealing();
+		Date endTime = new Date();
+		System.out.println(getRuntime(startTime, endTime));
 	}
 
 	private static void dealWithArgs(String[] args) {
@@ -44,4 +49,13 @@ public class Main {
 		}
 	}
 
+	private static String getRuntime(Date startTime, Date endTime) {
+		long time = endTime.getTime() - startTime.getTime();
+		if (time < 1000) {
+			return time + " ms";
+		} else {
+			String string = (time / 1000) + "." + (time % 1000) + " s";
+			return string;
+		}
+	}
 }

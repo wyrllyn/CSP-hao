@@ -1,0 +1,9 @@
+knight:
+	default size:	2 - 160 ms
+	size=100:	11.628 s
+	size=200:	42.568 s
+
+diag:
+	default size:	5 - 127 ms
+	size=100:	14.69 s
+	size=200:	52.961 s
